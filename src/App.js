@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { saveOrder } from "./actions";
 
-function App() {
+function App({ products, saveOrder }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>{products.length} produto(s)</p>
+      <button onClick={() => saveOrder()}>Salvar Pedido</button>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (store) => ({
+  products: store.orderReducer.products,
+});
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      saveOrder,
+    },
+    dispatch
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
